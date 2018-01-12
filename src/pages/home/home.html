@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
 <ion-header>
   <ion-navbar>
     <ion-title>Home</ion-title>
@@ -5,10 +7,13 @@
 </ion-header>
 
 <ion-content padding>
+
+<div align="center" style="border: 1px">
   <button ion-button (click)='getBalances()'>Get</button>
-
-  <p> {{ totalUSD }} </p>
-  <p> {{ totalEUR }} </p>
-
+  <p> {{ totalUSD.toLocaleString("en", {style: "currency", currency: "USD"}) }} </p>
+  <p> {{ totalEUR.toLocaleString("en", {style: "currency", currency: "EUR"}) }} </p>
+  <p> <i class="fa fa-btc"></i>{{ totalBTC.toFixed(8) }} </p>
+  <p> <em> {{ generatedDate }}</em> </p>
+</div>
 
 </ion-content>

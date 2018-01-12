@@ -13,16 +13,21 @@ export class HomePage {
   totalUSD : number = 0;
   totalEUR : number = 0;
   totalBTC : number = 0;
+  generatedDate : string = '';
 
   constructor(public navCtrl: NavController, private coinMarketCapApi : CoinMarketCapApi) {
 
   }
 
   getBalances() {
+    console.log('get balances started....');
     this.coinMarketCapApi.getCurrences().then(data => {
       this.currences = data;
       console.log(this.currences);
       var myCoins = returnMyCoins();
+      this.totalUSD = 0;
+      this.totalEUR = 0;
+      this.totalBTC = 0;
       myCoins.forEach(elem => {
           console.log('Analyzing ticker - ' + elem.symbol);
           var found = false;
@@ -36,7 +41,6 @@ export class HomePage {
                   this.totalEUR += elem.amount * Number(this.currences[i].price_eur);
                   this.totalBTC += elem.amount * this.currences[i].price_btc;
                   found = true;
-                  console.log(this.totalUSD);
                   break;
               }
           }
@@ -44,8 +48,7 @@ export class HomePage {
               alert('The currency is not found - ' + elem.symbol);
           }
       });
-      //this.totalUSD = this.totalUSD.toLocaleString("en", {style: "currency", currency: "USD"});
-      //this.totalEUR = this.totalUSD.toLocaleString("en", {style: "currency", currency: "EUR"});
+      this.generatedDate = new Date().toLocaleString(navigator.language);
 
     })
   }
