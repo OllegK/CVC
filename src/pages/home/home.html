@@ -8,12 +8,18 @@
 
 <ion-content padding>
 
-<div align="center" style="border: 1px">
+<div align="center">
   <button ion-button (click)='getBalances()'>Get</button>
+</div>
+
+<div *ngIf="generated" align="center">
   <p> {{ totalUSD.toLocaleString("en", {style: "currency", currency: "USD"}) }} </p>
   <p> {{ totalEUR.toLocaleString("en", {style: "currency", currency: "EUR"}) }} </p>
   <p> <i class="fa fa-btc"></i>{{ totalBTC.toFixed(8) }} </p>
   <p> <em> {{ generatedDate }}</em> </p>
+</div>
+<div *ngIf="!generated" align="center">
+  <p> <em> {{ timerValue }}</em> </p>
 </div>
 
 </ion-content>
