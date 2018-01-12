@@ -4,6 +4,7 @@ import { LoadingController } from 'ionic-angular';
 
 import { returnMyCoins } from './myCoins';
 import { CoinMarketCapApi } from '../../shared/shared';
+import { Loading } from 'ionic-angular/components/loading/loading';
 
 @Component({
   selector: 'page-home',
@@ -11,7 +12,7 @@ import { CoinMarketCapApi } from '../../shared/shared';
 })
 export class HomePage {
 
-  currences : any;
+  currences : Array<any>;
   totalUSD : number = 0;
   totalEUR : number = 0;
   totalBTC : number = 0;
@@ -19,7 +20,7 @@ export class HomePage {
   generated : boolean = false;
   timerValue : string = '';
   timerId : number;
-  loader : any;
+  loader : Loading;
 
   constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, private coinMarketCapApi : CoinMarketCapApi) {
 
@@ -34,10 +35,11 @@ export class HomePage {
 
   getBalances() {
     console.log('get balances started....');
-    this.presentLoading();
+    this.generated = false;
     this.startTimer();
+    this.presentLoading();
     this.coinMarketCapApi.getCurrences().then(data => {
-      this.currences = data;
+      this.currences = (data as Array<any>);
       var myCoins = returnMyCoins();
       this.totalUSD = 0;
       this.totalEUR = 0;
@@ -47,8 +49,12 @@ export class HomePage {
           var found = false;
           for (let i = 0; i < this.currences.length; i++) {
               if (this.currences[i].symbol === elem.symbol) {
+                  this.currences[i].price_usd = Number(this.currences[i].price_usd);
+                  this.currences[i].percent_change_1h = Number(this.currences[i].percent_change_1h);
+                  this.currences[i].percent_change_24h = Number(this.currences[i].percent_change_24h);
+                  this.currences[i].percent_change_7d = Number(this.currences[i].percent_change_7d);
                   this.currences[i].amount = (this.currences[i].amount || 0) + elem.amount;
-                  var valUSD = elem.amount * Number(this.currences[i].price_usd);
+                  var valUSD = elem.amount * this.currences[i].price_usd;
                   this.currences[i].valueUSD = (this.currences[i].valueUSD || 0) + valUSD;
                   this.totalUSD += valUSD;
                   this.totalEUR += elem.amount * Number(this.currences[i].price_eur);
@@ -58,10 +64,12 @@ export class HomePage {
               }
           }
           if (!found) {
+              console.error('The currency is not found - ' + elem.symbol);
               alert('The currency is not found - ' + elem.symbol);
           }
       });
       this.generatedDate = new Date().toLocaleString(navigator.language);
+      this.currences = this.currences.filter (elem => elem.valueUSD > 0);
       clearInterval(this.timerId);
       this.loader.dismiss();
       this.generated = true;
