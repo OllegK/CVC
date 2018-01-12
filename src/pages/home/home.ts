@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
+import { LoadingController } from 'ionic-angular';
+
 import { returnMyCoins } from './myCoins';
 import { CoinMarketCapApi } from '../../shared/shared';
 
@@ -17,13 +19,22 @@ export class HomePage {
   generated : boolean = false;
   timerValue : string = '';
   timerId : number;
+  loader : any;
 
-  constructor(public navCtrl: NavController, private coinMarketCapApi : CoinMarketCapApi) {
+  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, private coinMarketCapApi : CoinMarketCapApi) {
 
+  }
+
+  presentLoading() {
+    this.loader = this.loadingCtrl.create({
+      content: "Please wait...",
+    });
+    this.loader.present();
   }
 
   getBalances() {
     console.log('get balances started....');
+    this.presentLoading();
     this.startTimer();
     this.coinMarketCapApi.getCurrences().then(data => {
       this.currences = data;
@@ -52,6 +63,7 @@ export class HomePage {
       });
       this.generatedDate = new Date().toLocaleString(navigator.language);
       clearInterval(this.timerId);
+      this.loader.dismiss();
       this.generated = true;
     })
   }

@@ -8,8 +8,10 @@
 
 <ion-content padding>
 
-<div align="center">
-  <button ion-button (click)='getBalances()'>Get</button>
+<div align="center" style="height: 60px;">
+    <ion-fab top center>
+      <button ion-fab large (click)='getBalances()'><ion-icon name="add"></ion-icon></button>
+    </ion-fab>
 </div>
 
 <div *ngIf="generated" align="center">
