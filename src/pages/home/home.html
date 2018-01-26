@@ -8,56 +8,49 @@
 
 <ion-content padding>
 
-<div align="center" style="height: 60px;">
-      <button ion-fab top center large (click)='getBalances()'><ion-icon name="refresh"></ion-icon></button>
-</div>
-
-<div *ngIf="generated" align="center">
-  <p> {{ totalUSD.toLocaleString("en", {style: "currency", currency: "USD"}) }} </p>
-  <p> {{ totalEUR.toLocaleString("en", {style: "currency", currency: "EUR"}) }} </p>
-  <p> <i class="fa fa-btc"></i>{{ totalBTC.toFixed(8) }} </p>
-  <em> {{ generatedDate }}</em>
+  <div align="center" style="height: 60px;">
+    <button ion-fab top center large (click)='getBalances()'>
+      <ion-icon name="refresh"></ion-icon>
+    </button>
+  </div>
 
   <ion-item-divider></ion-item-divider>
 
-<!--
-  rank
-  symbol
-  amount
-  price_usd
-  valueUSD
-  percentage?
-  percent_change_1h
-  percent_change_24h
-  percent_change_7h
--->
+  <!-- Coinmarketcap -->
 
-  <ion-grid>
-    <ion-row style="border-bottom: 1px solid">
-      <ion-col col-1> # </ion-col>
-      <ion-col col-2> Sym </ion-col>
-      <ion-col col-2 text-right> Amount </ion-col>
-      <ion-col col-2 text-right> Price, $</ion-col>
-      <ion-col col-2 text-right> Sum </ion-col>
-      <ion-col col-1 text-right> 1h </ion-col>
-      <ion-col col-1 text-right> 24h </ion-col>
-      <ion-col col-1 text-right> 7d </ion-col>
-    </ion-row>
-    <ion-row *ngFor="let currency of currences" style="border-bottom: 1px solid">
-      <ion-col col-1> {{ currency.rank }} </ion-col>
-      <ion-col col-2> {{ currency.symbol }} </ion-col>
-      <ion-col col-2 text-right> {{ currency.amount.toFixed(2) }} </ion-col>
-      <ion-col col-2 text-right> {{ currency.price_usd.toFixed(1) }} </ion-col>
-      <ion-col col-2 text-right> {{ currency.valueUSD.toFixed(1) }} </ion-col>
-      <ion-col col-1 text-right [ngStyle]="{'color':currency.percent_change_1h < 0 ? 'red' : 'green'}" > {{ currency.percent_change_1h.toFixed(1) }} </ion-col>
-      <ion-col col-1 text-right [ngStyle]="{'color':currency.percent_change_24h < 0 ? 'red' : 'green'}"> {{ currency.percent_change_24h.toFixed(1) }} </ion-col>
-      <ion-col col-1 text-right [ngStyle]="{'color':currency.percent_change_7d < 0 ? 'red' : 'green'}"> {{ currency.percent_change_7d.toFixed(1) }} </ion-col>
-    </ion-row>
-  </ion-grid>
+  <div *ngIf="cmcGenerated" align="center">
+    <strong>CoinMarketCap</strong>
+    <p> {{ cmcTotalUSD.toLocaleString("en", {style: "currency", currency: "USD"}) }} </p>
+    <p> {{ cmcTotalEUR.toLocaleString("en", {style: "currency", currency: "EUR"}) }} </p>
+    <p>
+      <i class="fa fa-btc"></i>{{ cmcTotalBTC.toFixed(8) }} </p>
+    <em> {{ cmcGeneratedDate }}</em>
+  </div>
+  <div *ngIf="!cmcGenerated" align="center">
+    <p>
+      <em> Coinmarketcap: {{ cmcTimerValue }}</em>
+    </p>
+  </div>
 
-</div>
-<div *ngIf="!generated" align="center">
-  <p> <em> {{ timerValue }}</em> </p>
-</div>
+  <ion-item-divider></ion-item-divider>
+
+  <!-- Cryptocompare -->
+
+  <ion-item-divider></ion-item-divider>
+
+  <!-- Global -->
+  <div *ngIf="globalGenerated" align="center">
+      <strong>CoinMarketCap Globals</strong>
+      <p> Total Market Cap - {{totalMarketCap.toLocaleString("en", {style: "currency", currency: "USD"})}} </p>
+      <p> Total 24h volume - {{total24hVolume.toLocaleString("en", {style: "currency", currency: "USD"})}} </p>
+      <p>
+          <i class="fa fa-btc"></i> dominance: {{totalBTCDominance}}% </p>
+      <em> {{ globalGeneratedDate }}</em>
+    </div>
+    <div *ngIf="!globalGenerated" align="center">
+      <p>
+        <em> Coinmarketcap Globals: {{ globalTimerValue }}</em>
+      </p>
+    </div>
 
 </ion-content>

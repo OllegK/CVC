@@ -5,7 +5,8 @@ import { Http } from '@angular/http';
 @Injectable()
 export class CoinMarketCapApi {
 
-  private url: string = 'https://api.coinmarketcap.com/v1/ticker/?limit=100&convert=EUR';
+  private url: string = 'https://api.coinmarketcap.com/v1/ticker/?limit=200&convert=EUR';
+  private globalUrl: string = 'https://api.coinmarketcap.com/v1/global/';
 
   constructor(private http: Http) { }
 
@@ -21,5 +22,19 @@ export class CoinMarketCapApi {
         )
     })
   }
+
+  getGlobal() {
+    return new Promise(resolve => {
+      this.http.get(this.globalUrl)
+        .subscribe(
+        res => resolve(res.json()),
+        err => {
+          console.log(err);
+          alert('error getting totals from coinmarketcap');
+        }
+        )
+    })
+  }
+
 }
 

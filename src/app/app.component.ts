@@ -5,12 +5,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HttpModule } from '@angular/http';
 
 import { TabsPage } from '../pages/tabs/tabs';
-import { CoinMarketCapApi } from '../shared/shared';
+import { CoinMarketCapApi, CryptoCompareApi } from '../shared/shared';
 
 @Component({
   templateUrl: 'app.html',
   providers: [
     CoinMarketCapApi,
+    CryptoCompareApi,
     HttpModule
   ]
 })
