@@ -15,9 +15,7 @@
   </div>
 
   <ion-item-divider></ion-item-divider>
-
   <!-- Coinmarketcap -->
-
   <div *ngIf="cmcGenerated" align="center">
     <strong>CoinMarketCap</strong>
     <p> {{ cmcTotalUSD.toLocaleString("en", {style: "currency", currency: "USD"}) }} </p>
@@ -33,11 +31,22 @@
   </div>
 
   <ion-item-divider></ion-item-divider>
-
   <!-- Cryptocompare -->
+  <div *ngIf="ccGenerated" align="center">
+      <strong>CryptoCompare</strong>
+      <p> {{ ccTotalUSD.toLocaleString("en", {style: "currency", currency: "USD"}) }} </p>
+      <p> {{ ccTotalEUR.toLocaleString("en", {style: "currency", currency: "EUR"}) }} </p>
+      <p>
+        <i class="fa fa-btc"></i>{{ ccTotalBTC.toFixed(8) }} </p>
+      <em> {{ ccGeneratedDate }}</em>
+    </div>
+    <div *ngIf="!ccGenerated" align="center">
+      <p>
+        <em> CryptoCompare: {{ ccTimerValue }}</em>
+      </p>
+    </div>
 
   <ion-item-divider></ion-item-divider>
-
   <!-- Global -->
   <div *ngIf="globalGenerated" align="center">
       <strong>CoinMarketCap Globals</strong>

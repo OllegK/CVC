@@ -2,8 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { HttpModule } from '@angular/http';
-
+import { HttpClientModule } from '@angular/common/http';
 
 import { ListPage } from '../pages/list/list';
 import { HomePage } from '../pages/home/home';
@@ -21,7 +20,7 @@ import { DataProvider } from '../providers/data/data';
     TabsPage
   ],
   imports: [
-    HttpModule,
+    HttpClientModule,
     BrowserModule,
     IonicModule.forRoot(MyApp)
   ],
@@ -36,7 +35,6 @@ import { DataProvider } from '../providers/data/data';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    DataProvider,
     DataProvider
   ]
 })

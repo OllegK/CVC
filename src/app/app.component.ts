@@ -2,17 +2,18 @@ import { Component } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { HttpModule } from '@angular/http';
 
 import { TabsPage } from '../pages/tabs/tabs';
 import { CoinMarketCapApi, CryptoCompareApi } from '../shared/shared';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   templateUrl: 'app.html',
   providers: [
     CoinMarketCapApi,
     CryptoCompareApi,
-    HttpModule
+    HttpClient,
+    HttpClientModule
   ]
 })
 export class MyApp {

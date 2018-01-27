@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
 
 import { returnMyCoins } from './myCoins';
-import { CoinMarketCapApi } from '../../shared/shared';
+import { CoinMarketCapApi, CryptoCompareApi } from '../../shared/shared';
 import { Loading } from 'ionic-angular/components/loading/loading';
 
 import { DataProvider } from '../../providers/data/data';
@@ -25,6 +25,14 @@ export class HomePage {
   cmcTimerValue: string = '';
   cmcTimerId: number;
 
+  ccTotalUSD: number = 0;
+  ccTotalEUR: number = 0;
+  ccTotalBTC: number = 0;
+  ccGeneratedDate: string = '';
+  ccGenerated: boolean = false;
+  ccTimerValue: string = '';
+  ccTimerId: number;
+
   globalGenerated: boolean = false;
   globalGeneratedDate: string = '';
   globalTimerValue: string = '';
@@ -33,7 +41,14 @@ export class HomePage {
   total24hVolume: number;
   totalBTCDominance: number;
 
-  constructor(public navCtrl: NavController, public loadingCtrl: LoadingController, public data: DataProvider, private coinMarketCapApi: CoinMarketCapApi) {
+  myCoins : Array<any>;
+
+  constructor(
+    public navCtrl: NavController,
+    public loadingCtrl: LoadingController,
+    public data: DataProvider,
+    private coinMarketCapApi: CoinMarketCapApi,
+    private cryptoCompareApi: CryptoCompareApi) {
 
   }
 
@@ -52,9 +67,37 @@ export class HomePage {
       this.total24hVolume = (data as any).total_24h_volume_usd;
       this.totalBTCDominance = (data as any).bitcoin_percentage_of_market_cap;
       this.globalGeneratedDate = new Date().toLocaleString(navigator.language);
-      clearInterval(this.globalTimerId);
       this.globalGenerated = true;
+      clearInterval(this.globalTimerId);
     });
+  }
+
+  getCryptoCompare(){
+
+
+    var myCoins : string = this.myCoins.map(elem => elem.symbol === 'MIOTA' ? 'IOTA' : elem.symbol).join(',');
+
+    this.ccGenerated = false;
+    this.startTimer('ccTimerValue', 'ccTimerId');
+    this.cryptoCompareApi.getCurrences(myCoins, 'USD,EUR,BTC').then(data => {
+      console.log(data);
+      this.ccTotalUSD = 0;
+      this.ccTotalEUR = 0;
+      this.ccTotalBTC = 0;
+      this.ccGeneratedDate = new Date().toLocaleString(navigator.language);
+      this.myCoins.forEach(elem => {
+        console.log('Analyzing ticker - ' + elem.symbol);
+        var symbol = elem.symbol === 'MIOTA' ? 'IOTA' : elem.symbol; //IOTA is MIOTA on CoinMarketCap.com
+        if (data.hasOwnProperty(symbol)) {
+          this.ccTotalUSD += data[symbol]['USD'] * elem.amount;
+          this.ccTotalEUR += data[symbol]['EUR'] * elem.amount;
+          this.ccTotalBTC += data[symbol]['BTC'] * elem.amount;
+        } else {
+          alert('The currency is not found - ' + symbol);
+        }
+      });
+      this.ccGenerated = true;
+    })
   }
 
   getCoinMarketCap() {
@@ -63,11 +106,10 @@ export class HomePage {
     this.presentLoading();
     this.coinMarketCapApi.getCurrences().then(data => {
       this.currences = (data as Array<any>);
-      var myCoins = returnMyCoins();
       this.cmcTotalUSD = 0;
       this.cmcTotalEUR = 0;
       this.cmcTotalBTC = 0;
-      myCoins.forEach(elem => {
+      this.myCoins.forEach(elem => {
         var found = false;
         for (let i = 0; i < this.currences.length; i++) {
           if (this.currences[i].symbol === elem.symbol) {
@@ -101,7 +143,9 @@ export class HomePage {
 
   getBalances() {
     console.log('get balances started....');
+    this.myCoins = returnMyCoins();
     this.getCoinMarketCap();
+    this.getCryptoCompare();
     this.getCoinMarketCapGlobal();
   }
 
