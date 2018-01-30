@@ -13,7 +13,7 @@ export class ListPage {
 
   ionViewWillEnter() {
     this.currences = this.data.paramData;
-    //    console.log(this.currences);
+    //console.log(this.currences);
 
   }
   constructor(public navCtrl: NavController, public data: DataProvider) {

@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ListPage } from '../pages/list/list';
 import { HomePage } from '../pages/home/home';
 import { TabsPage } from '../pages/tabs/tabs';
+import { SettingsPage } from '../pages/settings/settings';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -17,6 +18,7 @@ import { DataProvider } from '../providers/data/data';
     MyApp,
     ListPage,
     HomePage,
+    SettingsPage,
     TabsPage
   ],
   imports: [
@@ -29,6 +31,7 @@ import { DataProvider } from '../providers/data/data';
     MyApp,
     ListPage,
     HomePage,
+    SettingsPage,
     TabsPage
   ],
   providers: [
