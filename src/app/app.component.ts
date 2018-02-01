@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { TabsPage } from '../pages/tabs/tabs';
 import { CoinMarketCapApi, CryptoCompareApi } from '../shared/shared';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AppPreferences } from '@ionic-native/app-preferences';
 
 @Component({
   templateUrl: 'app.html',
@@ -13,7 +14,8 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
     CoinMarketCapApi,
     CryptoCompareApi,
     HttpClient,
-    HttpClientModule
+    HttpClientModule,
+    AppPreferences
   ]
 })
 export class MyApp {
