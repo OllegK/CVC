@@ -15,6 +15,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class SettingsPage {
 
+  password: string = '<<Enter password>>';
+  showPasswordText: boolean = false;
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 

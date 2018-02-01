@@ -24,14 +24,15 @@
 
     <ion-item>
       <ion-label color="primary" stacked>FireBase Password</ion-label>
-      <ion-input type="password" placeholder="Password Input"></ion-input>
+      <ion-input type="password" [(ngModel)]="password" *ngIf="!showPasswordText"></ion-input>
+      <ion-input type="text" [(ngModel)]="password" *ngIf="showPasswordText"></ion-input>
+      <button ion-button clear color="dark" type="button" item-right (click)="showPasswordText = !showPasswordText">
+        <ion-icon name="eye"> </ion-icon>
+      </button>
     </ion-item>
-
 
   </ion-list>
 
-
   <button ion-button (click)="saveSettings()">Save</button>
-
 
 </ion-content>
