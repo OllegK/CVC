@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams } from 'ionic-angular';
 import { AppPreferences } from '@ionic-native/app-preferences';
 
 /**
@@ -9,7 +9,6 @@ import { AppPreferences } from '@ionic-native/app-preferences';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-settings',
   templateUrl: 'settings.html',

@@ -3,6 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
+import { AppPreferences } from '@ionic-native/app-preferences';
+
 
 import { ListPage } from '../pages/list/list';
 import { HomePage } from '../pages/home/home';
@@ -38,7 +40,8 @@ import { DataProvider } from '../providers/data/data';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    DataProvider
+    DataProvider,
+    AppPreferences
   ]
 })
 export class AppModule {}
