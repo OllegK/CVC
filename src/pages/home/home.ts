@@ -51,7 +51,7 @@ export class HomePage {
     private cryptoCompareApi: CryptoCompareApi,
     public firebaseProvider: FirebaseProvider) {
 
-      this.myCoins = this.firebaseProvider.getCoins();
+//      this.myCoins = this.firebaseProvider.getCoins();
 
 
   }
