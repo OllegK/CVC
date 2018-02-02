@@ -4,7 +4,10 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { AppPreferences } from '@ionic-native/app-preferences';
-
+import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+import { environment } from '../environments/environments';
 
 import { ListPage } from '../pages/list/list';
 import { HomePage } from '../pages/home/home';
@@ -14,6 +17,17 @@ import { SettingsPage } from '../pages/settings/settings';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DataProvider } from '../providers/data/data';
+import { FirebaseProvider } from '../providers/firebase/firebase';
+
+/*
+var firebaseConfig = {
+  apiKey: "AIzaSyAH6bmHzeLCJstIN6JAEna7Px_dnmWXz8k",
+  authDomain: "coinsvaluescalculator.firebaseapp.com",
+  databaseURL: "https://coinsvaluescalculator.firebaseio.com",
+  projectId: "coinsvaluescalculator",
+  storageBucket: "coinsvaluescalculator.appspot.com",
+  messagingSenderId: "796619285042"
+};*/
 
 @NgModule({
   declarations: [
@@ -26,6 +40,9 @@ import { DataProvider } from '../providers/data/data';
   imports: [
     HttpClientModule,
     BrowserModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase, 'angular-auth-firebase'),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -41,7 +58,8 @@ import { DataProvider } from '../providers/data/data';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider,
-    AppPreferences
+    AppPreferences,
+    FirebaseProvider
   ]
 })
 export class AppModule {}

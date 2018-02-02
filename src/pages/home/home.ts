@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { LoadingController } from 'ionic-angular';
+import { FirebaseProvider } from './../../providers/firebase/firebase';
 
-import { returnMyCoins } from './myCoins';
 import { CoinMarketCapApi, CryptoCompareApi } from '../../shared/shared';
 import { Loading } from 'ionic-angular/components/loading/loading';
 
@@ -48,7 +48,11 @@ export class HomePage {
     public loadingCtrl: LoadingController,
     public data: DataProvider,
     private coinMarketCapApi: CoinMarketCapApi,
-    private cryptoCompareApi: CryptoCompareApi) {
+    private cryptoCompareApi: CryptoCompareApi,
+    public firebaseProvider: FirebaseProvider) {
+
+      this.myCoins = this.firebaseProvider.getCoins();
+
 
   }
 
@@ -73,10 +77,7 @@ export class HomePage {
   }
 
   getCryptoCompare(){
-
-
     var myCoins : string = this.myCoins.map(elem => elem.symbol === 'MIOTA' ? 'IOTA' : elem.symbol).join(',');
-
     this.ccGenerated = false;
     this.startTimer('ccTimerValue', 'ccTimerId');
     this.cryptoCompareApi.getCurrences(myCoins, 'USD,EUR,BTC').then(data => {
@@ -97,6 +98,7 @@ export class HomePage {
         }
       });
       this.ccGenerated = true;
+      clearInterval(this.ccTimerId);
     })
   }
 
@@ -143,7 +145,6 @@ export class HomePage {
 
   getBalances() {
     console.log('get balances started....');
-    this.myCoins = returnMyCoins();
     this.getCoinMarketCap();
     this.getCryptoCompare();
     this.getCoinMarketCapGlobal();
