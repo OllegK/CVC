@@ -9,5 +9,5 @@ export const environment = {
       storageBucket: "coinsvaluescalculator.appspot.com",
       messagingSenderId: "796619285042"
 
-  };
+  }
 };

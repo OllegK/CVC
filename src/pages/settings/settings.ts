@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Tabs  } from 'ionic-angular';
 import { AppPreferences } from '@ionic-native/app-preferences';
+import { ServiceAuthProvider } from '../../providers/service-auth/service-auth';
+
+
 
 /**
  * Generated class for the SettingsPage page.
@@ -19,8 +22,18 @@ export class SettingsPage {
   password: string = '';
   showPasswordText: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private appPreferences: AppPreferences) {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private appPreferences: AppPreferences,
+    private authService: ServiceAuthProvider ) {
   }
+
+  selectTab(index: number) {
+    var t: Tabs = this.navCtrl.parent;
+    t.select(index);
+}
+
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingsPage');
@@ -30,7 +43,7 @@ export class SettingsPage {
      });
 
      this.appPreferences.fetch('fbemail').then((res) => {
-      this.email = res;
+      this.email = res || 'ok@ipr.lv';
      });
 
   }
@@ -40,5 +53,17 @@ export class SettingsPage {
     this.appPreferences.store('fbpassword', this.password).then((res) => { console.log(res) });
     this.appPreferences.store('fbemail', this.email).then((res) => { console.log(res) });
   }
+
+  doLogin(){
+    console.log('do login...');
+      this.authService.signInRegular(this.email, this.password)
+         .then((res) => {
+            console.log(res);
+            console.log('Authenticated');
+            //this.router.navigate(['dashboard']);
+            this.selectTab(0);
+         })
+         .catch((err) => console.log('error: ' + err));
+   }
 
 }

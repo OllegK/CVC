@@ -18,16 +18,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DataProvider } from '../providers/data/data';
 import { FirebaseProvider } from '../providers/firebase/firebase';
-
-/*
-var firebaseConfig = {
-  apiKey: "AIzaSyAH6bmHzeLCJstIN6JAEna7Px_dnmWXz8k",
-  authDomain: "coinsvaluescalculator.firebaseapp.com",
-  databaseURL: "https://coinsvaluescalculator.firebaseio.com",
-  projectId: "coinsvaluescalculator",
-  storageBucket: "coinsvaluescalculator.appspot.com",
-  messagingSenderId: "796619285042"
-};*/
+import { ServiceAuthProvider } from '../providers/service-auth/service-auth';
 
 @NgModule({
   declarations: [
@@ -59,7 +50,8 @@ var firebaseConfig = {
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataProvider,
     AppPreferences,
-    FirebaseProvider
+    FirebaseProvider,
+    ServiceAuthProvider
   ]
 })
 export class AppModule {}

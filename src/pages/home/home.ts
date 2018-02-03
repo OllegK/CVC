@@ -7,6 +7,9 @@ import { CoinMarketCapApi, CryptoCompareApi } from '../../shared/shared';
 import { Loading } from 'ionic-angular/components/loading/loading';
 
 import { DataProvider } from '../../providers/data/data';
+import { ServiceAuthProvider } from '../../providers/service-auth/service-auth';
+
+
 
 @Component({
   selector: 'page-home',
@@ -41,7 +44,7 @@ export class HomePage {
   total24hVolume: number;
   totalBTCDominance: number;
 
-  myCoins : Array<any>;
+  myCoins: Array<any>;
 
   constructor(
     public navCtrl: NavController,
@@ -49,9 +52,9 @@ export class HomePage {
     public data: DataProvider,
     private coinMarketCapApi: CoinMarketCapApi,
     private cryptoCompareApi: CryptoCompareApi,
-    public firebaseProvider: FirebaseProvider) {
+    public firebaseProvider: FirebaseProvider,
+    public authService: ServiceAuthProvider) {
 
-//      this.myCoins = this.firebaseProvider.getCoins();
 
 
   }
@@ -76,8 +79,21 @@ export class HomePage {
     });
   }
 
-  getCryptoCompare(){
-    var myCoins : string = this.myCoins.map(elem => elem.symbol === 'MIOTA' ? 'IOTA' : elem.symbol).join(',');
+  getCryptoCompare() {
+
+    var adjustForCc = function (sym) {
+      var obj = {
+        MIOTA: 'IOTA',
+        BCC: 'BCCOIN'
+      }
+      if (obj.hasOwnProperty(sym)) {
+        return obj[sym];
+      } else {
+        return sym;
+      }
+    }
+
+    var myCoins: string = this.myCoins.map(elem => adjustForCc(elem.symbol)).join(',');
     this.ccGenerated = false;
     this.startTimer('ccTimerValue', 'ccTimerId');
     this.cryptoCompareApi.getCurrences(myCoins, 'USD,EUR,BTC').then(data => {
@@ -88,13 +104,14 @@ export class HomePage {
       this.ccGeneratedDate = new Date().toLocaleString(navigator.language);
       this.myCoins.forEach(elem => {
         console.log('Analyzing ticker - ' + elem.symbol);
-        var symbol = elem.symbol === 'MIOTA' ? 'IOTA' : elem.symbol; //IOTA is MIOTA on CoinMarketCap.com
+        var symbol = adjustForCc(elem.symbol);
         if (data.hasOwnProperty(symbol)) {
           this.ccTotalUSD += data[symbol]['USD'] * elem.amount;
           this.ccTotalEUR += data[symbol]['EUR'] * elem.amount;
           this.ccTotalBTC += data[symbol]['BTC'] * elem.amount;
         } else {
-          alert('The currency is not found - ' + symbol);
+        //  alert('The currency is not found - ' + symbol);
+          console.log('The currency is not found - ' + symbol);
         }
       });
       this.ccGenerated = true;
@@ -145,9 +162,23 @@ export class HomePage {
 
   getBalances() {
     console.log('get balances started....');
-    this.getCoinMarketCap();
-    this.getCryptoCompare();
-    this.getCoinMarketCapGlobal();
+
+    this.firebaseProvider.getCoins().then((snapshot) => {
+
+      console.log(snapshot);
+
+      var obj = Object.assign({}, snapshot.val());
+      console.log(obj);
+      this.myCoins = [];
+      for (var key in obj) {
+        var sum = obj[key].reduce((total, elem) => total + elem.balance || 0, 0);
+        this.myCoins.push({ symbol: key, amount: sum })
+      }
+      this.getCoinMarketCap();
+      this.getCryptoCompare();
+      this.getCoinMarketCapGlobal();
+
+    });
   }
 
   startTimer(timerValue, timerId) {
