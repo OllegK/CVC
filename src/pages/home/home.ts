@@ -111,7 +111,7 @@ export class HomePage {
           this.ccTotalBTC += data[symbol]['BTC'] * elem.amount;
         } else {
         //  alert('The currency is not found - ' + symbol);
-          console.log('The currency is not found - ' + symbol);
+          console.error('The currency is not found - ' + symbol);
         }
       });
       this.ccGenerated = true;
@@ -148,7 +148,7 @@ export class HomePage {
         }
         if (!found) {
           console.error('The currency is not found - ' + elem.symbol);
-          alert('The currency is not found - ' + elem.symbol);
+          //alert('The currency is not found - ' + elem.symbol);
         }
       });
       this.cmcGeneratedDate = new Date().toLocaleString(navigator.language);
