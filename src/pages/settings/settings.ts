@@ -18,7 +18,7 @@ import { ServiceAuthProvider } from '../../providers/service-auth/service-auth';
 })
 export class SettingsPage {
 
-  email: string = '';
+  email: string = 'ok@ipr.lv'; //temp
   password: string = '';
   showPasswordText: boolean = false;
 
@@ -32,8 +32,7 @@ export class SettingsPage {
   selectTab(index: number) {
     var t: Tabs = this.navCtrl.parent;
     t.select(index);
-}
-
+  }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SettingsPage');
@@ -43,7 +42,7 @@ export class SettingsPage {
      });
 
      this.appPreferences.fetch('fbemail').then((res) => {
-      this.email = res || 'ok@ipr.lv';
+      this.email = res || this.email;
      });
 
   }
@@ -58,8 +57,8 @@ export class SettingsPage {
     console.log('do login...');
       this.authService.signInRegular(this.email, this.password)
          .then((res) => {
-            console.log(res);
-            console.log('Authenticated');
+          console.log('Authenticated');
+          console.log(res);
             //this.router.navigate(['dashboard']);
             this.selectTab(0);
          })
