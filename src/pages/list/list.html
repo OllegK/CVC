@@ -11,23 +11,23 @@
     <ion-grid *ngIf="currences">
         <ion-row style="border-bottom: 1px solid">
           <ion-col col-1> # </ion-col>
-          <ion-col col-2> Sym </ion-col>
+          <ion-col col-1> Sym </ion-col>
           <ion-col col-2 text-right> Amount </ion-col>
           <ion-col col-2 text-right> Price, $</ion-col>
           <ion-col col-2 text-right> Sum </ion-col>
           <ion-col col-1 text-right> 1h </ion-col>
           <ion-col col-1 text-right> 24h </ion-col>
-          <ion-col col-1 text-right> 7d </ion-col>
+          <ion-col col-2 text-right> 7d </ion-col>
         </ion-row>
         <ion-row *ngFor="let currency of currences" style="border-bottom: 1px solid">
           <ion-col col-1> {{ currency.rank }} </ion-col>
-          <ion-col col-2> {{ currency.symbol }} </ion-col>
+          <ion-col col-1> {{ currency.symbol }} </ion-col>
           <ion-col col-2 text-right> {{ currency.amount.toFixed(2) }} </ion-col>
           <ion-col col-2 text-right> {{ currency.price_usd.toFixed(1) }} </ion-col>
           <ion-col col-2 text-right> {{ currency.valueUSD.toFixed(1) }} </ion-col>
           <ion-col col-1 text-right [ngStyle]="{'color':currency.percent_change_1h < 0 ? 'red' : 'green'}" > {{ currency.percent_change_1h.toFixed(1) }} </ion-col>
           <ion-col col-1 text-right [ngStyle]="{'color':currency.percent_change_24h < 0 ? 'red' : 'green'}"> {{ currency.percent_change_24h.toFixed(1) }} </ion-col>
-          <ion-col col-1 text-right [ngStyle]="{'color':currency.percent_change_7d < 0 ? 'red' : 'green'}"> {{ currency.percent_change_7d.toFixed(1) }} </ion-col>
+          <ion-col col-2 text-right [ngStyle]="{'color':currency.percent_change_7d < 0 ? 'red' : 'green'}"> {{ currency.percent_change_7d.toFixed(1) }} </ion-col>
         </ion-row>
       </ion-grid>
 

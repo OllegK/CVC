@@ -62,7 +62,10 @@ export class SettingsPage {
             //this.router.navigate(['dashboard']);
             this.selectTab(0);
          })
-         .catch((err) => console.log('error: ' + err));
+         .catch((err) => {
+           console.log('error: ' + err);
+           alert('error: ' + err)
+         });
    }
 
 }

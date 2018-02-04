@@ -55,8 +55,6 @@ export class HomePage {
     public firebaseProvider: FirebaseProvider,
     public authService: ServiceAuthProvider) {
 
-
-
   }
 
   presentLoading() {
@@ -122,7 +120,6 @@ export class HomePage {
   getCoinMarketCap() {
     this.cmcGenerated = false;
     this.startTimer('cmcTimerValue', 'cmcTimerId');
-    this.presentLoading();
     this.coinMarketCapApi.getCurrences().then(data => {
       this.currences = (data as Array<any>);
       this.cmcTotalUSD = 0;
@@ -161,6 +158,7 @@ export class HomePage {
   }
 
   getBalances() {
+    this.presentLoading();
     console.log('get balances started....');
 
     this.firebaseProvider.getCoins().then((snapshot) => {
