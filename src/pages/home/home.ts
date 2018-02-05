@@ -195,4 +195,13 @@ export class HomePage {
     }, 1000);
   }
 
+  saveBalances() {
+    console.log('saving balances...');
+
+  }
+
+  get allGenerated() {
+    return this.cmcGenerated && this.ccGenerated && this.globalGenerated;
+  }
+
 }

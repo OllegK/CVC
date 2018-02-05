@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 @Injectable()
 export class CoinMarketCapApi {
 
-  private url: string = 'https://api.coinmarketcap.com/v1/ticker/?limit=200&convert=EUR';
+  private url: string = 'https://api.coinmarketcap.com/v1/ticker/?limit=250&convert=EUR';
   private globalUrl: string = 'https://api.coinmarketcap.com/v1/global/';
 
   constructor(private http: HttpClient) { }

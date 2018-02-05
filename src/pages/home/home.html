@@ -59,4 +59,8 @@
     <button ion-fab><ion-icon name="refresh"></ion-icon></button>
   </ion-fab>
 
+  <ion-fab *ngIf="allGenerated" top left large (click)='saveBalances()'>
+    <button ion-fab><ion-icon name="information"></ion-icon></button>
+  </ion-fab>
+
 </ion-content>
