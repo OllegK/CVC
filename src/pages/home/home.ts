@@ -81,7 +81,7 @@ export class HomePage {
 
     var adjustForCc = function (sym) {
       var obj = {
-        MIOTA: 'IOTA',
+        MIOTA: 'IOT',
         BCC: 'BCCOIN'
       }
       if (obj.hasOwnProperty(sym)) {
