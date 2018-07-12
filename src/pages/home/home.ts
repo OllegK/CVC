@@ -104,9 +104,9 @@ export class HomePage {
         console.log('Analyzing ticker - ' + elem.symbol);
         var symbol = adjustForCc(elem.symbol);
         if (data.hasOwnProperty(symbol)) {
-          this.ccTotalUSD += data[symbol]['USD'] * elem.amount;
-          this.ccTotalEUR += data[symbol]['EUR'] * elem.amount;
-          this.ccTotalBTC += data[symbol]['BTC'] * elem.amount;
+          this.ccTotalUSD += (data[symbol]['USD'] || 0) * elem.amount;
+          this.ccTotalEUR += (data[symbol]['EUR'] || 0) * elem.amount;
+          this.ccTotalBTC += (data[symbol]['BTC'] || 0) * elem.amount;
         } else {
         //  alert('The currency is not found - ' + symbol);
           console.error('The currency is not found - ' + symbol);
